@@ -1,6 +1,6 @@
 {
   "name": "maxthelibrarybat",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "files": [
     "path.js",
     "command-line-arguments.js",
@@ -10,7 +10,6 @@
     "git.js",
     "time.js",
     "udp/packet-data.js",
-    "udp/packet.js",
     "commands/arguments.js",
     "internal/logger-event-emitter.js"
   ],
