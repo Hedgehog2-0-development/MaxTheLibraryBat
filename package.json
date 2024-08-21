@@ -9,7 +9,8 @@
     "bitwise.js",
     "git.js",
     "time.js",
-    "udp/packet-data.js"
+    "udp/packet-data.js",
+    "udp/packet.js"
   ],
   "private": true
 }
