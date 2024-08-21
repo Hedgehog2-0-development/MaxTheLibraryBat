@@ -8,7 +8,8 @@
     "logger.js",
     "bitwise.js",
     "git.js",
-    "time.js"
+    "time.js",
+    "udp/packet-data.js"
   ],
   "private": true
 }
