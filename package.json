@@ -1,6 +1,13 @@
 {
   "name": "maxthelibrarybat",
   "version": "1.0.0",
-  "files": [],
+  "files": [
+    "path.js",
+    "command-line-arguments.js",
+    "built-in-arguments.js",
+    "logger.js",
+    "bitwise.js",
+    "git.js"
+  ],
   "private": true
 }
