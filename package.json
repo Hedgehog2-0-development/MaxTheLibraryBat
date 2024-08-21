@@ -7,7 +7,8 @@
     "built-in-arguments.js",
     "logger.js",
     "bitwise.js",
-    "git.js"
+    "git.js",
+    "time.js"
   ],
   "private": true
 }
