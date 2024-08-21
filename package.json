@@ -10,7 +10,8 @@
     "git.js",
     "time.js",
     "udp/packet-data.js",
-    "udp/packet.js"
+    "udp/packet.js",
+    "commands/arguments.js"
   ],
   "private": true
 }
