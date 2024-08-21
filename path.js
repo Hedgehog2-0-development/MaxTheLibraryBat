@@ -2,8 +2,8 @@
 
 let rootPath = ""
 
-module.exports.setRoot = path => {
+module.exports.setRootDirectory = path => {
     rootPath = path
 }
 
-module.exports.getRoot = () => rootPath
+module.exports.getRootDirectory = () => rootPath
