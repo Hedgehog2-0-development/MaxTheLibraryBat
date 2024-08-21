@@ -11,7 +11,11 @@
     "time.js",
     "udp/packet-data.js",
     "udp/packet.js",
-    "commands/arguments.js"
+    "commands/arguments.js",
+    "internal/logger-event-emitter.js"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {
+    "tiny-typed-emitter": "^2.1.0"
+  }
 }

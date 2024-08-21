@@ -5,6 +5,7 @@ const {createWriteStream} = require("fs")
 const CommandLineArguments = require("./command-line-arguments")
 const BuiltInArguments = require("./built-in-arguments")
 const Path = require("./path")
+const LoggerEventEmitter = require("./internal/logger-event-emitter")
 
 const ValidTypes = {
     Fatal: 0,
@@ -15,6 +16,8 @@ const ValidTypes = {
     Trace: 5,
     Null: 6
 }
+
+const events = new LoggerEventEmitter()
 
 let logLevel = null
 let calledLogger = false
@@ -33,6 +36,11 @@ const formatDate = (dateSeparator) => {
 
 module.exports.ValidTypes = ValidTypes
 
+/**
+ * @param level
+ * @param message
+ * @param extra
+ */
 module.exports.log = (level, message, ...extra) => {
     if (calledLogger) {
         if (crashed)
@@ -96,11 +104,24 @@ module.exports.log = (level, message, ...extra) => {
         }
     }
 
-    module.exports.addToLogFile(header + message, ...extra)
+    {
+        const originalHeader = header
 
-    if (!CommandLineArguments.hasArgument(BuiltInArguments.disableAnsiColoring, BuiltInArguments.disableAnsiColoringShort))
-        header = color + header + "\033[m"
+        if (!CommandLineArguments.hasArgument(BuiltInArguments.disableAnsiColoring, BuiltInArguments.disableAnsiColoringShort))
+            header = color + header + "\033[m"
 
+        {
+            let eventMessage = message
+
+            if (extra.length !== 0)
+                eventMessage += ` ${extra.join(" ")}`
+
+            events.emit("messageLogged", logLevel, header + eventMessage, originalHeader + eventMessage)
+        }
+        
+        module.exports.addToLogFile(originalHeader + message, ...extra)
+    }
+    
     outputFunction(header + message, ...extra)
 
     calledLogger = false
@@ -165,7 +186,20 @@ module.exports.addToLogFile = (message, ...extra) => {
     if (fileConsole == null)
         fileConsole = new console.Console(createWriteStream(`${Path.getRootDirectory()}/logs/${formatDate("")}.log`))
 
-    fileConsole.log(`(${formatDate("/")}) ${message}`, ...extra)
+    const finalMessage = `(${formatDate("/")}) ${message}`
+    
+    {
+        let eventMessage = finalMessage
+        
+        if (extra.length !== 0)
+            eventMessage += ` ${extra.join(" ")}`
+        
+        events.emit("logFileModified", eventMessage)
+    }
+    
+    fileConsole.log(finalMessage, ...extra)
 }
 
 module.exports.isLevelEnabled = level => module.exports.getLevel() !== ValidTypes.Null && level <= module.exports.getLevel()
+
+module.exports.events = events
