@@ -3,7 +3,6 @@
 let lastOneOopsPanic = false
 
 /**
- * @param information
  * @param {(id: bigint) => any} packetFinder
  * @param {string} packet
  * @param {string} password
@@ -11,7 +10,7 @@ let lastOneOopsPanic = false
  * @param {bigint} panicCode
  * @return {{message: string, error: null}|*|{message: string, error}}
  */
-module.exports.parse = (information, packetFinder, packet, password, oopsCode, panicCode) => {
+module.exports.parse = (packetFinder, packet, password, oopsCode, panicCode) => {
     let json
 
     try {
