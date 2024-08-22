@@ -69,5 +69,8 @@ module.exports.parse = (information, packetFinder, packet, password, oopsCode, p
         }
 
     lastOneOopsPanic = currentOneOopsPanic
-    return foundPacket
+    return {
+        foundPacket,
+        data: json.d
+    }
 }
