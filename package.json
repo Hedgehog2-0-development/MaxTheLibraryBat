@@ -10,7 +10,7 @@
     "git.js",
     "time.js",
     "udp/packet-data.js",
-    "internal/logger-event-emitter.js"
+    "udp/packets.js"
   ],
   "private": true,
   "dependencies": {
