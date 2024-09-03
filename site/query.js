@@ -50,3 +50,5 @@ class Query extends Parser {
         })
     }
 }
+
+module.exports = Query
