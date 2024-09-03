@@ -1,6 +1,6 @@
 {
   "name": "maxthelibrarybat",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "files": [
     "path.js",
     "command-line-arguments.js",
@@ -12,7 +12,8 @@
     "udp/packet-data.js",
     "internal/logger-event-emitter.js",
     "udp/packets.js",
-    "parser.js"
+    "parser.js",
+    "site/query.js"
   ],
   "private": true,
   "dependencies": {
