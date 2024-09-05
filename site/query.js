@@ -22,7 +22,7 @@ class Query extends Parser {
             for (const key of urlParameters.keys())
                 this._object[key] = urlParameters.get(key)
             
-            if (this._request.method !== "post") {
+            if (this._request.method !== "POST") {
                 resolve(true)
                 return
             }
