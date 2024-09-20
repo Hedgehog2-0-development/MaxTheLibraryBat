@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> Some of these links will be broken if you're not a developer
+
 # Documentation
 
 Welcome to the documentation meta-document. This is an index of each of the document files.
