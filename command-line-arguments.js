@@ -1,5 +1,7 @@
 // Purpose: Make managing the command line arguments easier
 
+const BuiltInArguments = require("./built-in-arguments")
+
 /**
  * @param {string} argumentName
  * @param {string} [shortenName]
@@ -46,3 +48,9 @@ module.exports.getValue = (argumentName, shortenName) => {
 module.exports.hasArgument = (argumentName, shortenName) => {
     return process.argv.includes(argumentName) || (shortenName != null && process.argv.includes(shortenName))
 }
+
+module.exports.getHelpMessage = () =>
+    `${BuiltInArguments.logLevel} <null/none/trace/trc/debug/dbg/warn/wrn/error/err/fatal/ftl> (${BuiltInArguments.logLevelShort}): Sets the current log level\n` +
+    `${BuiltInArguments.disableAnsiColoring} (${BuiltInArguments.disableAnsiColoringShort}): Disable log colors\n` +
+    `${BuiltInArguments.dontLogHeader} (${BuiltInArguments.dontLogHeaderShort}): Do not log the log level header\n` +
+    `${BuiltInArguments.disableLogFile} (${BuiltInArguments.disableLogFileShort}): Do not create a log file`
