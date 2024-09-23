@@ -108,25 +108,23 @@ module.exports.log = (level, message, ...extra) => {
         }
     }
 
-    {
-        const originalHeader = header
+    const originalHeader = header
 
-        if (!CommandLineArguments.hasArgument(BuiltInArguments.disableAnsiColoring, BuiltInArguments.disableAnsiColoringShort))
-            header = color + header + "\033[m"
-
-        {
-            let eventMessage = message
-
-            if (extra.length !== 0)
-                eventMessage += ` ${extra.join(" ")}`
-
-            events.emit("messageLogged", logLevel, header + eventMessage, originalHeader + eventMessage)
-        }
-        
-        module.exports.addToLogFile(originalHeader + message, ...extra)
-    }
+    if (!CommandLineArguments.hasArgument(BuiltInArguments.disableAnsiColoring, BuiltInArguments.disableAnsiColoringShort))
+        header = color + header + "\033[m"
     
     outputFunction(header + message, ...extra)
+
+    {
+        let eventMessage = message
+
+        if (extra.length !== 0)
+            eventMessage += ` ${extra.join(" ")}`
+
+        events.emit("messageLogged", logLevel, header + eventMessage, originalHeader + eventMessage)
+    }
+
+    module.exports.addToLogFile(originalHeader + message, ...extra)
 
     calledLogger = false
 }
