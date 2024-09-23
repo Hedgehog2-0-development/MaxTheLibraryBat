@@ -1,6 +1,7 @@
 // Purpose: Logging system
 
 const {createWriteStream} = require("fs")
+const {clearLine, cursorTo} = require("readline")
 
 const CommandLineArguments = require("./command-line-arguments")
 const BuiltInArguments = require("./built-in-arguments")
@@ -64,6 +65,9 @@ module.exports.log = (level, message, ...extra) => {
     let outputFunction = console.log
     let header = ""
     let color = ""
+    
+    clearLine(process.stdout, 0)
+    cursorTo(process.stdout, 0)
 
     if (!CommandLineArguments.hasArgument(BuiltInArguments.dontLogHeader, BuiltInArguments.dontLogHeaderShort)) {
         switch (level) {
