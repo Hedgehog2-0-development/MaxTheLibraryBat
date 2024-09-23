@@ -8,6 +8,7 @@ Welcome to the documentation meta-document. This is an index of each of the docu
 ## Index
 
 * [/bitwise.md](./bitwise.md): Creating bitwise enums
+* [/logger.md](./logger.md): Explaining Logger types
 
 ## Other documents
 
