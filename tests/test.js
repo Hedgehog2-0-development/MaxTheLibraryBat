@@ -215,6 +215,9 @@ process.on("uncaughtException", error => {
 })
 
 process.on("beforeExit", () => {
+    if (tests === 0)
+        return
+    
     const percentage = successes / tests * 100
     
     console.log(`${!Number.isInteger(percentage) ? "~" : ""}${Math.floor(percentage)}% success (${successes}/${tests} tests)`) 
