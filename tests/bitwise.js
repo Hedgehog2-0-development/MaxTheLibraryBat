@@ -30,4 +30,4 @@ Test.assertMustEqual(null, -1, Test.returnVariable, enumerator.test10)
 
 enumerator.test9 = 100
 
-Test.assertMustEqual(256, Test.returnVariable, enumerator.test9)
+Test.assertMustEqual(null,  256, Test.returnVariable, enumerator.test9)
