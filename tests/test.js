@@ -12,7 +12,13 @@ const uniqueKey = "this is a unique key, but whats the chances someone has MAX_T
                   __filename // NOTE(kratcy): There is no way someone will both have `MAX_THE_LIBRARY_BAT_TEST_REQUIRED` defined, but also match this value. What's the fucking odds?
 
 if (process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED === uniqueKey) {
-    console.error("Test has already been required. Do not require this twice")
+    const trace = new Error().stack.split("\n")
+
+    trace.shift()
+    
+    console.error("Test has already been required. Do not require this twice\n" +
+                  `Current require trace:\n${trace.join("\n")}\n` +
+                  `Original require trace:\n${process.env.MAX_THE_LIBRARY_BAT_TEST_FIRST_CALL_TRACE}`)
     process.exit(1)
 }
 
@@ -21,6 +27,14 @@ process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED = uniqueKey
 if (require.main === module) {
     console.error("This is a utility file, and isn't intended to be ran directly")
     process.exit(1)
+}
+
+{
+    const trace = new Error().stack.split("\n")
+    
+    trace.shift()
+    
+    process.env.MAX_THE_LIBRARY_BAT_TEST_FIRST_CALL_TRACE = trace.join("\n")
 }
 
 delete require.cache[require.resolve(require.main.filename)]
