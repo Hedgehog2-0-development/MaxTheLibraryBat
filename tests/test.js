@@ -1,13 +1,29 @@
 // Purpose: Internal test functions
 
 // NOTE(kratcy): This shouldn't be used randomly in projects. This is expected to be used in test files.
+// TODO(kratcy): These assert functions can be useful, though. Perhaps we can extract them from this file?
+delete require.cache[require.resolve(__filename)]
 
 const {inspect} = require("util")
+const uniqueKey = "this is a unique key, but whats the chances someone has MAX_THE_LIBRARY_BAT_TEST_REQUIRED defined in their environment variables?" + 
+                  "i dont know, but this is for you, random person." +
+                  "also, please don't try circumventing this, since the whole point of this file is to allow making test files, not so you can use this in the bot." +
+                  "thank you for understanding - kratcy" +
+                  __filename // NOTE(kratcy): There is no way someone will both have `MAX_THE_LIBRARY_BAT_TEST_REQUIRED` defined, but also match this value. What's the fucking odds?
+
+if (process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED === uniqueKey) {
+    console.error("Test has already been required. Do not require this twice")
+    process.exit(1)
+}
+
+process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED = uniqueKey
 
 if (require.main === module) {
     console.error("This is a utility file, and isn't intended to be ran directly")
     process.exit(1)
 }
+
+delete require.cache[require.resolve(require.main.filename)]
 
 let tests = 0
 let successes = 0
@@ -89,45 +105,45 @@ const isEmptyInternal = (result, expected) => {
 
 /**
  * @param {*} expected
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertMustEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result === expected, inspect(result === expected), true], passedFunction, ...passedArguments)
 
 /**
  * @param {*} expected
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertMustNotEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result !== expected, inspect(result !== expected), false], passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertTruthy = (passedFunction, ...passedArguments) => module.exports.assertMustEqual(true, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertFalsy = (passedFunction, ...passedArguments) => module.exports.assertMustEqual(false, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsEmpty = (passedFunction, ...passedArguments) => assertInternal(false, false, isEmptyInternal, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsNotEmpty = (passedFunction, ...passedArguments) => assertInternal(true, false, isEmptyInternal, passedFunction, ...passedArguments)
 
 /**
  * @param {"undefined" | "object" | "boolean" | "number" | "string" | "function" | "symbol" | "bigint"} expected
- * @param {(...arguments: *) => *}passedFunction
+ * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsType = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [typeof result === expected, inspect(typeof result), true], passedFunction, ...passedArguments)
