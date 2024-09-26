@@ -3,6 +3,8 @@
 const {performance} = require("perf_hooks")
 const {inspect} = require("util")
 
+global.Optimize = module.exports
+
 // NOTE(kratcy): Yes, I required test here. Wanna fight about it?
 module.exports.test = require("../tests/test")
 

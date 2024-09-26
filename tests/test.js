@@ -23,7 +23,10 @@ if (process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED === uniqueKey) {
     process.exit(1)
 }
 
-process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED = uniqueKey
+if (global.Optimize == null || global.maxTestLoaded)
+    process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED = uniqueKey
+
+global.maxTestLoaded = true
 
 if (require.main === module) {
     console.error("This is a utility file, and isn't intended to be ran directly")
@@ -44,6 +47,11 @@ let tests = 0
 let successes = 0
 
 const assertInternal = (that, expected, allowErrors, checkFunction, passedFunction, ...passedArguments) => {
+    if (global.Optimize != null) {
+        global.Optimize.checkSpeed(passedFunction.name, that, passedFunction, ...passedArguments)
+        return
+    }
+    
     tests++
 
     let result
@@ -220,18 +228,19 @@ module.exports.assertNull = (that, passedFunction, ...passedArguments) => module
  */
 module.exports.assertNotNull = (that, passedFunction, ...passedArguments) => module.exports.assertMustNotEqual(that, null, passedFunction, ...passedArguments)
 
+if (global.Optimize == null || global.maxTestLoaded) {
+    process.on("uncaughtException", error => {
+        console.error("Unexpected error:\n", error)
+        console.error("Test has to end prematurely")
+        process.exit(1)
+    })
 
-process.on("uncaughtException", error => {
-    console.error("Unexpected error:\n", error)
-    console.error("Test has to end prematurely")
-    process.exit(1)
-})
+    process.on("beforeExit", () => {
+        if (tests === 0)
+            return
 
-process.on("beforeExit", () => {
-    if (tests === 0)
-        return
-    
-    const percentage = successes / tests * 100
-    
-    console.log(`${!Number.isInteger(percentage) ? "~" : ""}${Math.floor(percentage)}% success (${successes}/${tests} tests)`) 
-})
+        const percentage = successes / tests * 100
+
+        console.log(`${!Number.isInteger(percentage) ? "~" : ""}${Math.floor(percentage)}% success (${successes}/${tests} tests)`)
+    })
+}
