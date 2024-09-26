@@ -1,6 +1,6 @@
 {
   "name": "maxthelibrarybat",
-  "version": "7.0.1",
+  "version": "8.0.1",
   "files": [
     "path.js",
     "command-line-arguments.js",
@@ -15,7 +15,8 @@
     "parser.js",
     "site/query.js",
     "site/cookie.js",
-    "sleep.js"
+    "sleep.js",
+    "tests/test.js"
   ],
   "private": true,
   "dependencies": {
