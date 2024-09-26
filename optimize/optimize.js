@@ -17,7 +17,7 @@ module.exports.checkSpeed = (name, that, passedFunction, ...passedArguments) => 
         let stringedArguments = ""
 
         for (const passedArgument of passedArguments)
-            stringedArguments += `${inspect(passedArgument)}, `
+            stringedArguments += `${inspect(passedArgument).replace(/ +/g, " ").replaceAll("\n", "")}, `
 
         console.log(`${name}(${stringedArguments.substring(0, stringedArguments.length - 2)}) took ~${finalTime / 1000} seconds (${finalTime}ms)`)
     }

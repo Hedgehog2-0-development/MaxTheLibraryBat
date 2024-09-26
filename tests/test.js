@@ -69,7 +69,7 @@ const assertInternal = (that, expected, allowErrors, checkFunction, passedFuncti
         let stringedArguments = ""
         
         for (const passedArgument of passedArguments)
-            stringedArguments += `${inspect(passedArgument)}, `
+            stringedArguments += `${inspect(passedArgument).replace(/ +/g, " ").replaceAll("\n", "")}, `
         
         // FIXME(kratcy): passedFunction.name is empty for arrow functions
         console.log(`${passedFunction.name}(${stringedArguments.substring(0, stringedArguments.length - 2)}) ${!result[2] ? "!" : "="}= ${inspect(expected)}`)
