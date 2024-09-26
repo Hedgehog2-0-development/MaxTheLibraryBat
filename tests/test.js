@@ -12,6 +12,11 @@ const uniqueKey = "this is a unique key, but whats the chances someone has MAX_T
                   "thank you for understanding - kratcy" +
                   __filename // NOTE(kratcy): There is no way someone will both have `MAX_THE_LIBRARY_BAT_TEST_REQUIRED` defined, but also match this value. What's the fucking odds?
 
+if (require.main === module) {
+    require("./run-all")(__dirname)
+    process.exit(0)
+}
+
 if (process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED === uniqueKey) {
     const trace = new Error().stack.split("\n")
 
@@ -27,11 +32,6 @@ if (global.Optimize == null || global.maxTestLoaded)
     process.env.MAX_THE_LIBRARY_BAT_TEST_REQUIRED = uniqueKey
 
 global.maxTestLoaded = true
-
-if (require.main === module) {
-    console.error("This is a utility file, and isn't intended to be ran directly")
-    process.exit(1)
-}
 
 {
     const trace = new Error().stack.split("\n")
