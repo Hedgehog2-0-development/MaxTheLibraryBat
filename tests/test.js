@@ -46,9 +46,11 @@ delete require.cache[require.resolve(require.main.filename)]
 let tests = 0
 let successes = 0
 
+const AsyncFunction = async function () {}.constructor
+
 const assertInternal = async (that, expected, allowErrors, checkFunction, passedFunction, ...passedArguments) => {
     if (global.Optimize != null) {
-        await global.Optimize.checkSpeed(passedFunction.name, that, passedFunction, ...passedArguments)
+        await global.Optimize.checkSpeed(that, passedFunction, ...passedArguments)
         return
     }
     
@@ -61,7 +63,12 @@ const assertInternal = async (that, expected, allowErrors, checkFunction, passed
 
         {
             try {
-                functionResult = await passedFunction.call(that, ...passedArguments)
+                const newThat = {
+                    that,
+                    passedArguments
+                }
+                
+                functionResult = await (new AsyncFunction(...Object.keys(newThat), `return await that.${passedFunction}.call(that, ...passedArguments)`))(...Object.values(newThat))
             } catch (error) {
                 if (!allowErrors)
                     throw error
@@ -79,8 +86,7 @@ const assertInternal = async (that, expected, allowErrors, checkFunction, passed
         for (const passedArgument of passedArguments)
             stringedArguments += `${inspect(passedArgument).replace(/ +/g, " ").replaceAll("\n", "")}, `
         
-        // FIXME(kratcy): passedFunction.name is empty for arrow functions
-        console.log(`${passedFunction.name}(${stringedArguments.substring(0, stringedArguments.length - 2)}) ${!result[2] ? "!" : "="}= ${inspect(expected)}`)
+        console.log(`${passedFunction}(${stringedArguments.substring(0, stringedArguments.length - 2)}) ${!result[2] ? "!" : "="}= ${inspect(expected)}`)
     }
     
     if (result[0]) {
@@ -129,52 +135,52 @@ const isEmptyInternal = (result, expected) => {
 
 /**
  * @param {*} expected
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertMustEqual = (that, expected, passedFunction, ...passedArguments) => assertInternal(that, expected, false, (result, expected) => [result === expected, inspect(result), true], passedFunction, ...passedArguments)
 
 /**
  * @param {*} expected
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertMustNotEqual = (that, expected, passedFunction, ...passedArguments) => assertInternal(that, expected, false, (result, expected) => [result !== expected, inspect(result), false], passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertTruthy = (that, passedFunction, ...passedArguments) => module.exports.assertMustEqual(that, true, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertFalsy = (that, passedFunction, ...passedArguments) => module.exports.assertMustEqual(that, false, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsEmpty = (that, passedFunction, ...passedArguments) => assertInternal(that, false, false, isEmptyInternal, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsNotEmpty = (that, passedFunction, ...passedArguments) => assertInternal(that, true, false, isEmptyInternal, passedFunction, ...passedArguments)
 
 /**
  * @param {"undefined" | "object" | "boolean" | "number" | "string" | "function" | "symbol" | "bigint"} expected
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsType = (that, expected, passedFunction, ...passedArguments) => assertInternal(that, expected, false, (result, expected) => [typeof result === expected, inspect(typeof result), true], passedFunction, ...passedArguments)
 
 /**
  * @param {"undefined" | "object" | "boolean" | "number" | "string" | "function" | "symbol" | "bigint"} expected
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsNotType = (that, expected, passedFunction, ...passedArguments) => assertInternal(that, expected, false, (result, expected) => [typeof result !== expected, inspect(typeof result), false], passedFunction, ...passedArguments)
@@ -182,7 +188,7 @@ module.exports.assertIsNotType = (that, expected, passedFunction, ...passedArgum
 // FIXME(kratcy): If the function returns an error, then it would say "error != error", which is confusing and dumb
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertThrowsError = (that, passedFunction, ...passedArguments) => assertInternal(that, "error", true, (result, expected) => [result instanceof Error, inspect(result), true], passedFunction, ...passedArguments)
@@ -190,26 +196,26 @@ module.exports.assertThrowsError = (that, passedFunction, ...passedArguments) =>
 // TODO(kratcy): This masks the stack trace
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertDoesntThrowError = (that, passedFunction, ...passedArguments) => assertInternal(that, "error", true, (result, expected) => [!(result instanceof Error), inspect(result.toString()), false], passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsArray = (that, passedFunction, ...passedArguments) => assertInternal(that, "array", false, (result, expected) => [Array.isArray(result), inspect(result), true], passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsNotArray = (that, passedFunction, ...passedArguments) => assertInternal(that, "array", false, (result, expected) => [!Array.isArray(result), inspect(result), true], passedFunction, ...passedArguments)
 
 /**
  * @param {*} expected
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertIsInstance = (that, expected, passedFunction, ...passedArguments) => assertInternal(that, expected, false, (result, expected) => [result instanceof expected, inspect(result), true], passedFunction, ...passedArguments)
@@ -217,13 +223,13 @@ module.exports.assertIsInstance = (that, expected, passedFunction, ...passedArgu
 module.exports.returnVariable = variable => variable
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertNull = (that, passedFunction, ...passedArguments) => module.exports.assertMustEqual(that, null, passedFunction, ...passedArguments)
 
 /**
- * @param {(...arguments: *) => *} passedFunction
+ * @param {string} passedFunction
  * @param {*} passedArguments
  */
 module.exports.assertNotNull = (that, passedFunction, ...passedArguments) => module.exports.assertMustNotEqual(that, null, passedFunction, ...passedArguments)

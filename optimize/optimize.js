@@ -13,11 +13,18 @@ global.Optimize = module.exports
 // NOTE(kratcy): Yes, I required test here. Wanna fight about it?
 module.exports.test = require("../tests/test")
 
-module.exports.checkSpeed = async (name, that, passedFunction, ...passedArguments) => {
+const AsyncFunction = async function () {}.constructor
+
+module.exports.checkSpeed = async (that, passedFunction, ...passedArguments) => {
     const now = performance.now()
     
     try {
-        await passedFunction.call(that, ...passedArguments)
+        const newThat = {
+            that,
+            passedArguments
+        }
+
+        await (new AsyncFunction(...Object.keys(newThat), `await that.${passedFunction}.call(that, ...passedArguments)`))(...Object.values(newThat))
     } catch {
         // NOTE(kratcy): Intentionally ignored. This is just to test speed, not actually test if a function works
     }
@@ -30,6 +37,6 @@ module.exports.checkSpeed = async (name, that, passedFunction, ...passedArgument
         for (const passedArgument of passedArguments)
             stringedArguments += `${inspect(passedArgument).replace(/ +/g, " ").replaceAll("\n", "")}, `
 
-        console.log(`${name}(${stringedArguments.substring(0, stringedArguments.length - 2)}) took ~${finalTime / 1000} seconds (${finalTime}ms)`)
+        console.log(`${passedFunction}(${stringedArguments.substring(0, stringedArguments.length - 2)}) took ~${finalTime / 1000} seconds (${finalTime}ms)`)
     }
 }

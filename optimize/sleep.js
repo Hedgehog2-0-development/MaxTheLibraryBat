@@ -3,5 +3,9 @@
 const Optimize = require("./optimize")
 const sleep = require("../sleep")
 
+const fakeModule = {
+    sleep
+}
+
 console.log("Sleeping for 10 seconds")
-Optimize.checkSpeed("sleep", null, sleep, 10000)
+Optimize.checkSpeed(fakeModule, "sleep", 10000)

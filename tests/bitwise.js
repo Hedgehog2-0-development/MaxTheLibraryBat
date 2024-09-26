@@ -17,17 +17,17 @@ const enumerator = Bitwise.createEnumerator({
     test10: -1
 })
 
-Test.assertMustEqual(null, 0, Test.returnVariable, enumerator.test1)
-Test.assertMustEqual(null, 1, Test.returnVariable, enumerator.test2)
-Test.assertMustEqual(null, 4, Test.returnVariable, enumerator.test3)
-Test.assertMustEqual(null, 8, Test.returnVariable, enumerator.test4)
-Test.assertMustEqual(null, 16, Test.returnVariable, enumerator.test5)
-Test.assertMustEqual(null, 32, Test.returnVariable, enumerator.test6)
-Test.assertMustEqual(null, 64, Test.returnVariable, enumerator.test7)
-Test.assertMustEqual(null, 128, Test.returnVariable, enumerator.test8)
-Test.assertMustEqual(null, 256, Test.returnVariable, enumerator.test9)
-Test.assertMustEqual(null, -1, Test.returnVariable, enumerator.test10)
+Test.assertMustEqual(Test, 0, "returnVariable", enumerator.test1)
+Test.assertMustEqual(Test, 1, "returnVariable", enumerator.test2)
+Test.assertMustEqual(Test, 4, "returnVariable", enumerator.test3)
+Test.assertMustEqual(Test, 8, "returnVariable", enumerator.test4)
+Test.assertMustEqual(Test, 16, "returnVariable", enumerator.test5)
+Test.assertMustEqual(Test, 32, "returnVariable", enumerator.test6)
+Test.assertMustEqual(Test, 64, "returnVariable", enumerator.test7)
+Test.assertMustEqual(Test, 128, "returnVariable", enumerator.test8)
+Test.assertMustEqual(Test, 256, "returnVariable", enumerator.test9)
+Test.assertMustEqual(Test, -1, "returnVariable", enumerator.test10)
 
 enumerator.test9 = 100
 
-Test.assertMustEqual(null,  256, Test.returnVariable, enumerator.test9)
+Test.assertMustEqual(Test,  256, "returnVariable", enumerator.test9)

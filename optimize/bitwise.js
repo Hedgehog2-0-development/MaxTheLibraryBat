@@ -3,7 +3,7 @@
 const Optimize = require("./optimize")
 const Bitwise = require("../bitwise")
 
-Optimize.checkSpeed("createEnumerator", null, Bitwise.createEnumerator, {
+Optimize.checkSpeed(Bitwise, "createEnumerator", {
     test1: 0,
     test2: 0,
     test3: 0,
