@@ -10,8 +10,12 @@ module.exports.test = require("../tests/test")
 
 module.exports.checkSpeed = async (name, that, passedFunction, ...passedArguments) => {
     const now = performance.now()
-
-    await passedFunction.call(that, ...passedArguments)
+    
+    try {
+        await passedFunction.call(that, ...passedArguments)
+    } catch {
+        // NOTE(kratcy): Intentionally ignored. This is just to test speed, not actually test if a function works
+    }
     
     const finalTime = performance.now() - now
     
