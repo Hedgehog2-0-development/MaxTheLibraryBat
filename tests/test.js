@@ -208,6 +208,19 @@ module.exports.assertIsInstance = (that, expected, passedFunction, ...passedArgu
 
 module.exports.returnVariable = variable => variable
 
+/**
+ * @param {(...arguments: *) => *} passedFunction
+ * @param {*} passedArguments
+ */
+module.exports.assertNull = (that, passedFunction, ...passedArguments) => module.exports.assertMustEqual(that, null, passedFunction, ...passedArguments)
+
+/**
+ * @param {(...arguments: *) => *} passedFunction
+ * @param {*} passedArguments
+ */
+module.exports.assertNotNull = (that, passedFunction, ...passedArguments) => module.exports.assertMustNotEqual(that, null, passedFunction, ...passedArguments)
+
+
 process.on("uncaughtException", error => {
     console.error("Unexpected error:\n", error)
     console.error("Test has to end prematurely")
