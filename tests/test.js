@@ -124,14 +124,14 @@ const isEmptyInternal = (result, expected) => {
  * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
-module.exports.assertMustEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result === expected, inspect(result === expected), true], passedFunction, ...passedArguments)
+module.exports.assertMustEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result === expected, inspect(result), true], passedFunction, ...passedArguments)
 
 /**
  * @param {*} expected
  * @param {(...arguments: *) => *} passedFunction
  * @param {*} passedArguments
  */
-module.exports.assertMustNotEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result !== expected, inspect(result !== expected), false], passedFunction, ...passedArguments)
+module.exports.assertMustNotEqual = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result !== expected, inspect(result), false], passedFunction, ...passedArguments)
 
 /**
  * @param {(...arguments: *) => *} passedFunction
