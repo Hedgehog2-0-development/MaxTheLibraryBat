@@ -182,7 +182,7 @@ module.exports.setLevel = level => {
 }
 
 module.exports.addToLogFile = (message, ...extra) => {
-    if (CommandLineArguments.hasValue(BuiltInArguments.disableLogFile, BuiltInArguments.disableLogFileShort))
+    if (CommandLineArguments.hasValue(BuiltInArguments.disableLogFile, BuiltInArguments.disableLogFileShort) || Path.getRootDirectory() === "")
         return
 
     if (fileConsole == null)
