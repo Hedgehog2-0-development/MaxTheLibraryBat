@@ -3,6 +3,11 @@
 const {performance} = require("perf_hooks")
 const {inspect} = require("util")
 
+if (require.main === module) {
+    console.error("This is a utility file, and isn't intended to be ran directly")
+    process.exit(1)
+}
+
 global.Optimize = module.exports
 
 // NOTE(kratcy): Yes, I required test here. Wanna fight about it?
