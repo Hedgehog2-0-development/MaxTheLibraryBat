@@ -14,7 +14,8 @@
     "udp/packets.js",
     "parser.js",
     "site/query.js",
-    "site/cookie.js"
+    "site/cookie.js",
+    "sleep.js"
   ],
   "private": true,
   "dependencies": {
