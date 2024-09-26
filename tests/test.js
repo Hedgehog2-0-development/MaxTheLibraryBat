@@ -46,9 +46,9 @@ delete require.cache[require.resolve(require.main.filename)]
 let tests = 0
 let successes = 0
 
-const assertInternal = (that, expected, allowErrors, checkFunction, passedFunction, ...passedArguments) => {
+const assertInternal = async (that, expected, allowErrors, checkFunction, passedFunction, ...passedArguments) => {
     if (global.Optimize != null) {
-        global.Optimize.checkSpeed(passedFunction.name, that, passedFunction, ...passedArguments)
+        await global.Optimize.checkSpeed(passedFunction.name, that, passedFunction, ...passedArguments)
         return
     }
     
@@ -61,7 +61,7 @@ const assertInternal = (that, expected, allowErrors, checkFunction, passedFuncti
 
         {
             try {
-                functionResult = passedFunction.call(that, ...passedArguments)
+                functionResult = await passedFunction.call(that, ...passedArguments)
             } catch (error) {
                 if (!allowErrors)
                     throw error

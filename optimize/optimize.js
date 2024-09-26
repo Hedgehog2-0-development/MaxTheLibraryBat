@@ -8,10 +8,10 @@ global.Optimize = module.exports
 // NOTE(kratcy): Yes, I required test here. Wanna fight about it?
 module.exports.test = require("../tests/test")
 
-module.exports.checkSpeed = (name, that, passedFunction, ...passedArguments) => {
+module.exports.checkSpeed = async (name, that, passedFunction, ...passedArguments) => {
     const now = performance.now()
 
-    passedFunction.call(that, ...passedArguments)
+    await passedFunction.call(that, ...passedArguments)
     
     const finalTime = performance.now() - now
     
