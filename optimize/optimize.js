@@ -1,7 +1,7 @@
 // Purpose: Internal optimize function
 
 const {performance} = require("perf_hooks")
-const {inspect} = require("util");
+const {inspect} = require("util")
 
 // NOTE(kratcy): Yes, I required test here. Wanna fight about it?
 module.exports.test = require("../tests/test")
