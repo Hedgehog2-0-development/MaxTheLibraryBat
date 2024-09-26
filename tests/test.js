@@ -1,5 +1,6 @@
 // Purpose: Internal test functions
 
+// HACK(kratcy): This takes a lot of odd shortcuts. Why do I have to suck at writing test code?
 // NOTE(kratcy): This shouldn't be used randomly in projects. This is expected to be used in test files.
 // TODO(kratcy): These assert functions can be useful, though. Perhaps we can extract them from this file?
 delete require.cache[require.resolve(__filename)]
