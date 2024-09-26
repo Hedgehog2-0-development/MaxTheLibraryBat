@@ -52,7 +52,7 @@ const assertInternal = (expected, allowErrors, checkFunction, passedFunction, ..
 
         {
             try {
-                functionResult = passedFunction.call(...passedArguments)
+                functionResult = passedFunction.call(null, ...passedArguments)
             } catch (error) {
                 if (!allowErrors)
                     throw error
@@ -70,6 +70,7 @@ const assertInternal = (expected, allowErrors, checkFunction, passedFunction, ..
         for (const passedArgument of passedArguments)
             stringedArguments += `${inspect(passedArgument)}, `
         
+        // FIXME(kratcy): passedFunction.name is empty for arrow functions
         console.log(`${passedFunction.name}(${stringedArguments.substring(0, stringedArguments.length - 2)}) ${!result[2] ? "!" : "="}= ${inspect(expected)}`)
     }
     
