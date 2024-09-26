@@ -206,6 +206,8 @@ module.exports.assertIsNotArray = (passedFunction, ...passedArguments) => assert
  */
 module.exports.assertIsInstance = (expected, passedFunction, ...passedArguments) => assertInternal(expected, false, (result, expected) => [result instanceof expected, inspect(result), true], passedFunction, ...passedArguments)
 
+module.exports.returnVariable = variable => variable
+
 process.on("uncaughtException", error => {
     console.error("Unexpected error:\n", error)
     console.error("Test has to end prematurely")
