@@ -1,5 +1,7 @@
 // Purpose: Packets manager
 
+const Cryptography = require("../cryptography")
+
 let lastOneOopsPanic = false
 
 /**
@@ -14,19 +16,13 @@ module.exports.parse = (packetFinder, packet, password, oopsCode, panicCode) => 
     let json
 
     try {
-        json = JSON.parse(packet)
+        json = JSON.parse(Cryptography.decrypt(packet, password))
     } catch (error) {
         return {
             message: "invalid JSON",
             error
         }
     }
-
-    if (json.p == null || json.p !== password)
-        return {
-            message: "wrong password",
-            error: null
-        }
 
     if (json.o == null || json.d == null)
         return {
@@ -73,3 +69,8 @@ module.exports.parse = (packetFinder, packet, password, oopsCode, panicCode) => 
         data: json.d
     }
 }
+
+module.exports.create = (password, operationCode, data) => Cryptography.encrypt(JSON.stringify({
+    "o": operationCode?.toString(),
+    "d": data
+}), password)

@@ -2,6 +2,7 @@
 
 const Test = require("../test")
 const Packets = require("../../udp/packets")
+const Cryptography = require("../../cryptography")
 
 const password = "no, i will not put the real password here"
 
@@ -17,39 +18,11 @@ const fakeModule = {
 }
 
 Test.assertThrowsError(fakeModule, "parse", "very valid json here")
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: "wrong password"
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: false
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: false,
-    d: false
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: "false",
-    d: false
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: "false",
-    d: {}
-}))
-Test.assertThrowsError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: "0",
-    d: {}
-}))
-Test.assertDoesntThrowError(fakeModule, "parse", JSON.stringify({
-    p: password,
-    o: "1",
-    d: {}
-}))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, null, null))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, false, null))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, false, false))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, "false", false))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, "false", {}))
+Test.assertThrowsError(fakeModule, "parse", Packets.create(password, 0n, {}))
+Test.assertThrowsError(fakeModule, "parse", Packets.create("wrong", 1n, {}))
+Test.assertDoesntThrowError(fakeModule, "parse", Packets.create(password, 1n, {}))
