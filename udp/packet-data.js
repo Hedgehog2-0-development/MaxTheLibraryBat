@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Packet data helper
 
 const Logger = require("../logger")

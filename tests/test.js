@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Internal test functions
 
 // HACK(kratcy): This takes a lot of odd shortcuts. Why do I have to suck at writing test code?

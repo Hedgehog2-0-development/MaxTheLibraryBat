@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Parser test
 
 const Test = require("./test")

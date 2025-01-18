@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Simple wrapper around the crypto package
 
 const {createHash, randomBytes, createCipheriv, createDecipheriv} = require("crypto")

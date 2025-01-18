@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Bitwise math
 
 module.exports.has = (flags, bit) => (flags & bit) === bit

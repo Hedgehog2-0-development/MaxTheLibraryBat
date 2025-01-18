@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: HTTP query manager
 
 const {InstanceType, Request} = require("http")

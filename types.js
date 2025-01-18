@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2025, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Helper typedefs
 
 /**

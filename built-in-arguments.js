@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Hard coded argument strings
 
 module.exports.logLevel = "--log-level"

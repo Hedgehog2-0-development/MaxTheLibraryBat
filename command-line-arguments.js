@@ -1,3 +1,7 @@
+//
+// Copyright (c) 2024, Hedgehog Team.    All rights reserved.
+//
+
 // Purpose: Make managing the command line arguments easier
 
 const BuiltInArguments = require("./built-in-arguments")
