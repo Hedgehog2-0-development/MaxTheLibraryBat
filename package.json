@@ -1,6 +1,6 @@
 {
   "name": "maxthelibrarybat",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "files": [
     "path.js",
     "command-line-arguments.js",
@@ -19,7 +19,8 @@
     "tests/test.js",
     "optimize/optimize.js",
     "cryptography.js",
-    "types.js"
+    "types.js",
+    "operating-system-user.js"
   ],
   "private": true,
   "dependencies": {
