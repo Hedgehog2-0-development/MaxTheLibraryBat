@@ -32,3 +32,27 @@ module.exports.createEnumerator = enumerator => {
 
     return Object.freeze(enumerator)
 }
+
+/**
+ * Easier way to create a bitwise enumerator using BigInt
+ * @template T
+ * @param {T} enumerator
+ * @returns {Readonly<T>}
+ */
+module.exports.createBigEnumerator = enumerator => {
+    let index = 0n
+
+    for (const name in enumerator) {
+        if (enumerator[name] < 0n)
+            continue
+
+        if (index <= 1n)
+            enumerator[name] = index
+        else
+            enumerator[name] = (1n << index)
+
+        index++
+    }
+
+    return Object.freeze(enumerator)
+}
