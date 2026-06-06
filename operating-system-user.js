@@ -11,7 +11,7 @@ const Logger = require("./logger")
 
 let alreadyWarned = false
 
-module.exports.isAdmin = async () => {
+module.exports.isAdmin = () => {
     if (platform() === "win32") {
         try {
             execSync("net session")
