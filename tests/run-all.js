@@ -16,8 +16,10 @@ module.exports = directory => {
 
     run("bitwise.js")
     run("command-line-arguments.js")
+    run("cryptography.js")
     run("git.js")
     run("logger.js")
+    run("operating-system-user.js")
     run("parser.js")
     run("sleep.js")
     run("time.js")
