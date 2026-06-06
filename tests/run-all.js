@@ -14,8 +14,6 @@ module.exports = directory => {
         })
     }
 
-    run("udp/packet-data.js")
-    run("udp/packets.js")
     run("bitwise.js")
     run("command-line-arguments.js")
     run("git.js")
